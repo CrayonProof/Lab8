@@ -22,6 +22,7 @@ class AVL :
     bool isRightImbalanced(Node * n);
     Node * locateViolater(Node * n);
     bool treeBalanced(Node * n);
+    int heavySide(Node * n);
 	private :
 	    Node * rootNode;
 	    

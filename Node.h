@@ -19,6 +19,8 @@ class Node :
     	bool setLeftChild(Node * newLeftChild);
     	bool setRightChild(Node * newRightChild);
     	int getHeight();
+    	int getLeftHeight();
+    	int getRightHeight();
     private :
         int data;
         Node * rightChild;

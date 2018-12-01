@@ -103,3 +103,25 @@ using namespace std;
     	        return rHeight;
     	    }
     	}
+    	int Node::getLeftHeight()
+    	{
+    	    int lHeight = 0;
+    	    Node * lookingAt = this;
+    	    while (lookingAt->leftChild !=NULL)
+    	    {
+    	        lookingAt = lookingAt->leftChild;
+    	        lHeight += 1;
+    	    }
+    	    return lHeight;
+    	}
+    	int Node::getRightHeight()
+    	{
+    	    int rHeight = 0;
+    	    Node * lookingAt = this;
+    	    while (lookingAt->rightChild !=NULL)
+    	    {
+    	        lookingAt = lookingAt->rightChild;
+    	        rHeight += 1;
+    	    }
+    	    return rHeight;
+    	}

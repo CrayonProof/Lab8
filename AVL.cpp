@@ -214,41 +214,44 @@ using namespace std;
     	    {
     	        Node * vNode = locateViolater(rootNode);
     	        
-    	        if(isLeftImbalanced(vNode))
-        	    {
-        	        //left-right imbalance
-        	        if(isLeftImbalanced(vNode->rightChild))
-        	        {
-        	            //left rotate on left child
-        	            leftRotate(vNode->leftChild);
-        	            //right rotate on violating node
-        	            rightRotate(vNode);
-        	        }
-        	        //left-left imbalance or left-equal
-        	        else
-        	        {
-        	            //right rotate on violating node
-        	            rightRotate(vNode);
-        	        }
-        	    }
-        	    
-        	    else if(isRightImbalanced(vNode))
-        	    {
-        	        //right-left imbalance
-        	        if(isRightImbalanced(vNode->leftChild))
-        	        {
-        	            //right rotate on right child
-        	            rightRotate(vNode->rightChild);
-        	            //left rotate on violating node
-        	            leftRotate(vNode);
-        	        }
-        	        //right-right imbalance or right-equal
-        	        else
-        	        {
-        	            //left rotate on violating node
-        	            leftRotate(vNode);
-        	        }
-        	    }
+    	        if(heavySide(vNode) == 1)
+    	        {
+    	            //right-right
+    	            if(heavySide(vNode->rightChild) == 1)
+    	            {
+    	                leftRotate(vNode);
+    	            }
+    	            //right-left
+    	            else if(heavySide(vNode->rightChild) == -1)
+    	            {
+    	                rightRotate(vNode->rightChild);
+    	                leftRotate(vNode);
+    	            }
+    	            //right-equals
+    	            else
+    	            {
+    	                leftRotate(vNode);
+    	            }
+    	        }
+    	        else if(heavySide(vNode) == -1)
+    	        {
+    	            //left-left
+    	            if(heavySide(vNode->leftChild) == -1)
+    	            {
+    	               rightRotate(vNode); 
+    	            }
+    	            //left-right
+    	            else if (heavySide(vNode->leftChild) == 1)
+    	            {
+    	                leftRotate(vNode->leftChild);
+    	                rightRotate(vNode);
+    	            }
+    	            //left-equals
+    	            else
+    	            {
+    	                rightRotate(vNode);
+    	            }
+    	        }
     	    }
     	    
     	    
@@ -298,7 +301,7 @@ using namespace std;
             int rHeight = -1;
             
             if (n == NULL)
-                return true;
+                return false;
             if (n->getHeight() == 0)
             {
                 cout << " returned false" << endl;
@@ -331,7 +334,7 @@ using namespace std;
             int rHeight = -1;
             
             if (n == NULL)
-                return true;
+                return false;
             if (n->getHeight() == 0)
             {
                 cout << " returned false" << endl;
@@ -355,6 +358,16 @@ using namespace std;
                 cout << " returned false" << endl;
                 return false;
             }
+        }
+        
+        int AVL::heavySide(Node * n)
+        {
+            if (n->getRightHeight() > n->getLeftHeight())
+                return 1;
+            else if (n->getLeftHeight() > n->getRightHeight())
+                return -1;
+            else
+                return 0;
         }
         
         bool AVL::treeBalanced(Node * n)
