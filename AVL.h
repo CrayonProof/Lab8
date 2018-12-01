@@ -20,9 +20,10 @@ class AVL :
     bool rightRotate(Node * &n);
     bool isLeftImbalanced(Node * n);
     bool isRightImbalanced(Node * n);
-    Node * locateViolater(Node * n);
+    Node * locateViolater(Node * &n);
     bool treeBalanced(Node * n);
     int heavySide(Node * n);
+    void chooseRotation(Node * &vNode);
 	private :
 	    Node * rootNode;
 	    

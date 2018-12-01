@@ -79,6 +79,7 @@ using namespace std;
     	
     	int Node::getHeight()
     	{
+    	    //cout << "preDATA: " << this->data << endl;
     	    int lHeight = 0;
     	    Node * lookingAt = this;
     	    while (lookingAt->leftChild !=NULL)
@@ -94,6 +95,7 @@ using namespace std;
     	        lookingAt = lookingAt->rightChild;
     	        rHeight += 1;
     	    }
+    	    //cout << "postDATA: " << this->data << endl;
     	    if (lHeight > rHeight)
     	    {
     	        return lHeight;
@@ -102,9 +104,11 @@ using namespace std;
     	    {
     	        return rHeight;
     	    }
+    	    
     	}
     	int Node::getLeftHeight()
     	{
+    	    //cout << "preDATA: " << this->data << endl;
     	    int lHeight = 0;
     	    Node * lookingAt = this;
     	    while (lookingAt->leftChild !=NULL)
@@ -112,10 +116,12 @@ using namespace std;
     	        lookingAt = lookingAt->leftChild;
     	        lHeight += 1;
     	    }
+    	    //cout << "postDATA: " << this->data << endl;
     	    return lHeight;
     	}
     	int Node::getRightHeight()
     	{
+    	    //cout << "preDATA: " << this->data << endl;
     	    int rHeight = 0;
     	    Node * lookingAt = this;
     	    while (lookingAt->rightChild !=NULL)
@@ -123,5 +129,6 @@ using namespace std;
     	        lookingAt = lookingAt->rightChild;
     	        rHeight += 1;
     	    }
+    	    //cout << "postDATA: " << this->data << endl;
     	    return rHeight;
     	}

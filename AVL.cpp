@@ -1,5 +1,6 @@
 #include "AVL.h"
 #include <iostream>
+#include <cmath>
 #include "Node.h"
 using namespace std;
 
@@ -212,14 +213,23 @@ using namespace std;
     	    }
     	    else
     	    {
-    	        Node * vNode = locateViolater(rootNode);
+    	        locateViolater(rootNode);
     	        
-    	        if(heavySide(vNode) == 1)
+    	        
+    	    }
+    	    
+    	    
+    	}
+    	
+    	void AVL::chooseRotation(Node * &vNode)
+    	{
+    	    if(heavySide(vNode) == 1)
     	        {
     	            //right-right
     	            if(heavySide(vNode->rightChild) == 1)
     	            {
     	                leftRotate(vNode);
+    	                cout << "rootData: " << rootNode->getData() << endl;
     	            }
     	            //right-left
     	            else if(heavySide(vNode->rightChild) == -1)
@@ -239,6 +249,7 @@ using namespace std;
     	            if(heavySide(vNode->leftChild) == -1)
     	            {
     	               rightRotate(vNode); 
+    	               cout << "rootData: " << rootNode->getData() << endl;
     	            }
     	            //left-right
     	            else if (heavySide(vNode->leftChild) == 1)
@@ -252,14 +263,11 @@ using namespace std;
     	                rightRotate(vNode);
     	            }
     	        }
-    	    }
-    	    
-    	    
     	}
     	
     	bool AVL::leftRotate(Node * &n)
     	{
-    	    cout << "leftRotate(" << ")" << endl;
+    	    cout << "leftRotate(" << n->data << ")" << endl;
     	    /*
     	    Node * oldNode = n;
     	    Node * newNode = oldNode->rightChild;
@@ -267,13 +275,18 @@ using namespace std;
     	    oldNode->rightChild = newNode->leftChild;
     	    newNode->leftChild = oldNode;
     	    */
-    	    
+    	    //cout << "lRoot Right Child: " << n->rightChild->data << endl;
+    	    Node * newLocalRoot = n->rightChild;
     	    Node * oldLocalRoot = n;
-    	    Node * newLocalRoot = oldLocalRoot->rightChild;
     	    Node * newLocalRootLeft = newLocalRoot->leftChild;
-    	    newLocalRoot->leftChild = oldLocalRoot;
     	    n = newLocalRoot;
     	    oldLocalRoot->rightChild = newLocalRootLeft;
+    	    n->leftChild = oldLocalRoot;
+    	    
+    	    //cout << "localRoot: " << n->getData() << endl;
+    	    //cout << "localRootLeftChild: " << n->leftChild->getData() << endl;
+    	    //cout << "localRootLeftChildsRightChild: " << n->leftChild->rightChild->getData() << endl;
+    	    
     	}
         bool AVL::rightRotate(Node * &n)
         {
@@ -290,9 +303,9 @@ using namespace std;
     	    Node * oldLocalRoot = n;
     	    Node * newLocalRoot = oldLocalRoot->leftChild;
     	    Node * newLocalRootRight = newLocalRoot->rightChild;
-    	    newLocalRoot->rightChild = oldLocalRoot;
     	    n = newLocalRoot;
     	    oldLocalRoot->leftChild = newLocalRootRight;
+    	    n->rightChild = oldLocalRoot;
         }
         bool AVL::isLeftImbalanced(Node * n)
         {
@@ -373,20 +386,22 @@ using namespace std;
         bool AVL::treeBalanced(Node * n)
         {
             cout << "call to treeBalanced(" << ")" << endl;
-            if (isLeftImbalanced(n) || isRightImbalanced(n))
-            {
-                cout << "treeBalanced returned false" << endl;
-                return false;
-            }
-            else
+            cout << "treeLeftHeight: " << n->getLeftHeight() << endl;
+            cout << "treeRightHeight: " << n->getRightHeight() << endl;
+            if(abs(n->getLeftHeight() - n->getRightHeight()) <= 1)
             {
                 cout << "treeBalanced returned true" << endl;
                 return true;
             }
+            else
+            {
+                cout << "treeBalanced returned false" << endl;
+                return false;
+            }
         }
         
         //should only be called when tree is known to be imballanced
-        Node * AVL::locateViolater(Node * n)
+        Node * AVL::locateViolater(Node * &n)
         {
             cout << "locateViolater(" << ")" << endl;
             /*
@@ -424,23 +439,24 @@ using namespace std;
                 }
             }
             */
-            if (!treeBalanced(n) || n == NULL)
+            if (!treeBalanced(n))
             {
-                bool rightIsGood = true;
+                bool rightChildIsBalanced = true;
                 if (n->rightChild != NULL)
                 {
-                    rightIsGood = treeBalanced(n->rightChild);
+                    rightChildIsBalanced = treeBalanced(n->rightChild);
                 }
-                bool leftIsGood = true;
+                bool leftChildIsBalanced = true;
                 if (n->leftChild != NULL)
                 {
-                    leftIsGood = treeBalanced(n->leftChild);
+                    leftChildIsBalanced = treeBalanced(n->leftChild);
                 }
-                if(rightIsGood)
+                if(rightChildIsBalanced)
                 {
-                    if(leftIsGood)
+                    if(leftChildIsBalanced)
                     {
                         cout << "locateViolater returned node with data: " << n->getData() << endl;
+                        chooseRotation(n);
                         return n;
                     }
                     else
