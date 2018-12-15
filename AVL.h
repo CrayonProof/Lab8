@@ -24,6 +24,9 @@ class AVL :
     bool treeBalanced(Node * n);
     int heavySide(Node * n);
     void chooseRotation(Node * &vNode);
+    int wholeTreeBalanced(Node * n, int state);
+    bool rBalance(Node * &n);
+    int bal (Node * n);
 	private :
 	    Node * rootNode;
 	    

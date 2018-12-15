@@ -10,7 +10,7 @@ class Node :
     public :
         Node();
         Node(int data);
-        Node(int data, Node * leftChild, Node * rightChild);
+        Node(int data, Node * p);
     	~Node();
     	int getData() const;
     	Node * getLeftChild() const;
@@ -25,5 +25,6 @@ class Node :
         int data;
         Node * rightChild;
         Node * leftChild;
+        Node * parent;
         friend class AVL;
 };
